@@ -967,3 +967,90 @@ button {
     font-size: 7px;
   }
 }
+
+/* ================================
+   LOGO PREVIEW
+================================ */
+
+.logo-preview-box {
+  padding: 14px;
+  border: 1px solid #dfe3ea;
+  border-radius: 12px;
+  background: #fafbfc;
+}
+
+.logo-preview-image {
+  height: 100px;
+  display: grid;
+  place-items: center;
+  margin-bottom: 12px;
+  border-radius: 9px;
+  background: white;
+  border: 1px solid #edf0f4;
+  overflow: hidden;
+}
+
+.logo-preview-image img {
+  max-width: 80%;
+  max-height: 75px;
+  object-fit: contain;
+}
+
+.logo-preview-info {
+  margin-bottom: 12px;
+}
+
+.logo-preview-info strong {
+  display: block;
+  margin-bottom: 3px;
+  color: #344054;
+  font-size: 12px;
+}
+
+.logo-preview-info span {
+  color: #98a0af;
+  font-size: 10px;
+}
+
+.logo-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.change-logo-button,
+.remove-logo-button {
+  flex: 1;
+  height: 34px;
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  font-size: 10px !important;
+  font-weight: 700 !important;
+  cursor: pointer;
+}
+
+.change-logo-button {
+  position: relative;
+  background: #172033;
+  color: white !important;
+  border: 1px solid #172033;
+}
+
+.change-logo-button input {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.remove-logo-button {
+  border: 1px solid #dfe3ea;
+  background: white;
+  color: #687286;
+}
+
+.remove-logo-button:hover {
+  border-color: #c8cdd6;
+  background: #f5f6f8;
+}

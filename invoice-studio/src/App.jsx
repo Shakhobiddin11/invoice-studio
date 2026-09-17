@@ -9,12 +9,16 @@ function App() {
   const [logo, setLogo] = useState(null);
 
   const handleLogoUpload = (event) => {
-    const file = event.target.files[0];
+  const file = event.target.files[0];
 
-    if (file) {
-      const imageUrl = URL.createObjectURL(file);
-      setLogo(imageUrl);
-    }
+  if (file) {
+    const imageUrl = URL.createObjectURL(file);
+    setLogo(imageUrl);
+  }
+};
+
+  const handleRemoveLogo = () => {
+    setLogo(null);
   };
 
   return (
@@ -115,17 +119,48 @@ function App() {
               </button>
             </div>
 
-            <label className="upload-area">
-              <input
-                type="file"
-                accept="image/*"
-                onChange={handleLogoUpload}
-              />
+            {logo ? (
+          <div className="logo-preview-box">
+            <div className="logo-preview-image">
+              <img src={logo} alt="Uploaded company logo" />
+            </div>
 
-              <div className="upload-icon">↑</div>
-              <strong>Upload logo</strong>
-              <span>PNG, JPG or SVG</span>
-            </label>
+            <div className="logo-preview-info">
+              <strong>Logo uploaded</strong>
+              <span>Your logo is visible in the invoice</span>
+            </div>
+
+            <div className="logo-actions">
+              <label className="change-logo-button">
+                Change logo
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={handleLogoUpload}
+                />
+              </label>
+
+              <button
+                className="remove-logo-button"
+                onClick={handleRemoveLogo}
+              >
+                Remove
+              </button>
+            </div>
+          </div>
+        ) : (
+          <label className="upload-area">
+            <input
+              type="file"
+              accept="image/*"
+              onChange={handleLogoUpload}
+            />
+
+            <div className="upload-icon">↑</div>
+            <strong>Upload logo</strong>
+            <span>PNG, JPG or SVG</span>
+          </label>
+        )}
           </section>
         </aside>
 
