@@ -8,6 +8,17 @@ function App() {
   const [showLogo, setShowLogo] = useState(true);
   const [logo, setLogo] = useState(null);
 
+  const [currency, setCurrency] = useState("USD");
+
+  const currencySymbols = {
+    USD: "$",
+    EUR: "€",
+    GBP: "£",
+    PLN: "zł",
+  };
+
+const symbol = currencySymbols[currency];
+
   const handleLogoUpload = (event) => {
   const file = event.target.files[0];
 
@@ -84,18 +95,33 @@ function App() {
             </div>
 
             <div className="color-row">
-              <label>Secondary color</label>
+           <label>Secondary color</label>
 
-              <div className="color-control">
-                <input
-                  type="color"
-                  value={secondaryColor}
-                  onChange={(e) => setSecondaryColor(e.target.value)}
-                />
+      <div className="color-control">
+        <input
+          type="color"
+          value={secondaryColor}
+          onChange={(e) => setSecondaryColor(e.target.value)}
+        />
 
-                <span>{secondaryColor}</span>
-              </div>
-            </div>
+        <span>{secondaryColor}</span>
+      </div>
+    </div>
+
+    <div className="currency-control">
+      <label htmlFor="currency">Currency</label>
+
+      <select
+        id="currency"
+        value={currency}
+        onChange={(e) => setCurrency(e.target.value)}
+      >
+        <option value="USD">USD — $</option>
+        <option value="EUR">EUR — €</option>
+        <option value="GBP">GBP — £</option>
+        <option value="PLN">PLN — zł</option>
+      </select>
+    </div>
           </section>
 
           <section className="settings-section">
@@ -265,8 +291,8 @@ function App() {
                   </div>
 
                   <span>1</span>
-                  <span>$1,000</span>
-                  <strong>$1,000</strong>
+                  <span>{symbol}1,000</span>
+                  <strong>{symbol}1,000</strong>
                 </div>
 
                 <div className="invoice-item">
@@ -277,7 +303,7 @@ function App() {
 
                   <span>1</span>
                   <span>$250</span>
-                  <strong>$250</strong>
+                  <strong>{symbol}250</strong>
                 </div>
               </div>
 
@@ -292,18 +318,18 @@ function App() {
                 <div className="totals">
                   <div>
                     <span>Subtotal</span>
-                    <strong>$1,250.00</strong>
+                    <strong>{symbol}1,250.00</strong>
                   </div>
 
                   <div>
                     <span>Tax (5%)</span>
-                    <strong>$62.50</strong>
+                    <strong>{symbol}62.50</strong>
                   </div>
 
                   <div className="total">
                     <span>Total</span>
                     <strong style={{ color: secondaryColor }}>
-                      $1,312.50
+                      {symbol}1,312.50
                     </strong>
                   </div>
                 </div>
