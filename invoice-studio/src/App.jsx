@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./App.css";
 
 function App() {
@@ -10,6 +10,35 @@ function App() {
   const [saved, setSaved] = useState(false);
 
   const [activeTab, setActiveTab] = useState("general");
+
+  useEffect(() => {
+  const savedTemplate = localStorage.getItem("invoiceTemplate");
+
+  if (!savedTemplate) return;
+
+  try {
+    const data = JSON.parse(savedTemplate);
+
+    if (data.templateName !== undefined) setTemplateName(data.templateName);
+    if (data.primaryColor !== undefined) setPrimaryColor(data.primaryColor);
+    if (data.secondaryColor !== undefined) setSecondaryColor(data.secondaryColor);
+    if (data.showLogo !== undefined) setShowLogo(data.showLogo);
+    if (data.logo !== undefined) setLogo(data.logo);
+    if (data.invoiceNumber !== undefined) setInvoiceNumber(data.invoiceNumber);
+    if (data.issueDate !== undefined) setIssueDate(data.issueDate);
+    if (data.dueDate !== undefined) setDueDate(data.dueDate);
+    if (data.companyName !== undefined) setCompanyName(data.companyName);
+    if (data.clientName !== undefined) setClientName(data.clientName);
+    if (data.itemDescription !== undefined) setItemDescription(data.itemDescription);
+    if (data.itemRate !== undefined) setItemRate(data.itemRate);
+    if (data.currency !== undefined) setCurrency(data.currency);
+    if (data.paymentMethods !== undefined) {
+      setPaymentMethods(data.paymentMethods);
+    }
+  } catch (error) {
+    console.error("Failed to load saved template:", error);
+  }
+}, []);
 
   const [invoiceNumber, setInvoiceNumber] = useState("INV-2024-001");
   const [issueDate, setIssueDate] = useState("September 18, 2026");
@@ -28,6 +57,18 @@ function App() {
   const subtotal = numericRate + secondItem;
   const tax = subtotal * 0.05;
   const total = subtotal + tax;
+
+  const [paymentMethods, setPaymentMethods] = useState({
+  bank: true,
+  card: true,
+  paypal: false,
+  });
+  const togglePaymentMethod = (method) => {
+  setPaymentMethods((prev) => ({
+    ...prev,
+    [method]: !prev[method],
+  }));
+  };
 
   const [currency, setCurrency] = useState("USD");
 
@@ -52,14 +93,46 @@ function App() {
   const file = event.target.files[0];
 
   if (file) {
-    const imageUrl = URL.createObjectURL(file);
-    setLogo(imageUrl);
+    const reader = new FileReader();
+
+    reader.onload = () => {
+      setLogo(reader.result);
+    };
+
+    reader.readAsDataURL(file);
   }
-};
+  };
 
   const handleRemoveLogo = () => {
     setLogo(null);
   };
+
+  const handleSaveTemplate = () => {
+  const template = {
+    templateName,
+    primaryColor,
+    secondaryColor,
+    showLogo,
+    logo,
+    invoiceNumber,
+    issueDate,
+    dueDate,
+    companyName,
+    clientName,
+    itemDescription,
+    itemRate,
+    currency,
+    paymentMethods,
+  };
+
+  localStorage.setItem("invoiceTemplate", JSON.stringify(template));
+
+  setSaved(true);
+
+  setTimeout(() => {
+    setSaved(false);
+  }, 2000);
+};
 
   return (
     <div className="app">
@@ -73,16 +146,10 @@ function App() {
         </div>
 
         <button
-          className={`save-button ${saved ? "saved" : ""}`}
-          onClick={() => {
-            setSaved(true);
-
-            setTimeout(() => {
-              setSaved(false);
-            }, 2000);
-          }}
+            className={`save-button ${saved ? "saved" : ""}`}
+            onClick={handleSaveTemplate}
         >
-          {saved ? "✓ Saved" : "Save template"}
+            {saved ? "✓ Saved" : "Save template"}
         </button>
       </header>
 
@@ -241,6 +308,52 @@ function App() {
             <span>PNG, JPG or SVG</span>
           </label>
         )}
+          </section>
+
+          <section className="settings-section">
+            <div className="section-title">
+              <span>04</span>
+              Payment methods
+            </div>
+
+            <div className="payment-heading">
+              <div>
+                <strong>Accept payment methods</strong>
+                <span>Choose how customers can pay</span>
+              </div>
+            </div>
+
+            <div className="payment-options">
+              <label className="payment-option">
+                <input
+                  type="checkbox"
+                  checked={paymentMethods.bank}
+                  onChange={() => togglePaymentMethod("bank")}
+                />
+                <span className="custom-checkbox"></span>
+                <span>Bank transfer</span>
+              </label>
+
+              <label className="payment-option">
+                <input
+                  type="checkbox"
+                  checked={paymentMethods.card}
+                  onChange={() => togglePaymentMethod("card")}
+                />
+                <span className="custom-checkbox"></span>
+                <span>Credit / debit card</span>
+              </label>
+
+              <label className="payment-option">
+                <input
+                  type="checkbox"
+                  checked={paymentMethods.paypal}
+                  onChange={() => togglePaymentMethod("paypal")}
+                />
+                <span className="custom-checkbox"></span>
+                <span>PayPal</span>
+              </label>
+            </div>
           </section>
           </>
           )}
@@ -489,6 +602,17 @@ function App() {
                       })
                       )}
                     </strong>
+                  </div>
+                </div>
+              </div>
+              <div className="invoice-payment-methods">
+                <div>
+                  <span className="payment-label">PAYMENT METHODS</span>
+
+                  <div className="payment-method-list">
+                    {paymentMethods.bank && <span>Bank transfer</span>}
+                    {paymentMethods.card && <span>Credit / debit card</span>}
+                    {paymentMethods.paypal && <span>PayPal</span>}
                   </div>
                 </div>
               </div>

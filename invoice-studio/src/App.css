@@ -1135,3 +1135,145 @@ button {
 .content-field {
   margin-top: 16px;
 }
+
+/* =================================
+   PAYMENT METHODS - FINAL
+================================= */
+
+.payment-options {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+
+.settings-section .payment-option {
+  position: relative;
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  gap: 10px;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 10px 11px;
+  border: 1px solid #e4e7ec;
+  border-radius: 9px;
+  background: #fafbfc;
+  color: #344054;
+  font-size: 11px;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.payment-option:hover {
+  border-color: #cfd4dc;
+  background: #ffffff;
+}
+
+/* Hide the native checkbox */
+.payment-option input[type="checkbox"] {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+  opacity: 0 !important;
+}
+
+/* Custom checkbox */
+.payment-option .custom-checkbox {
+  display: block !important;
+  width: 16px !important;
+  height: 16px !important;
+  min-width: 16px !important;
+  box-sizing: border-box;
+  border: 1.5px solid #c7ccd5;
+  border-radius: 5px;
+  background: #ffffff;
+  position: relative;
+  transition: 0.2s ease;
+}
+
+/* Checked state */
+.payment-option input[type="checkbox"]:checked + .custom-checkbox {
+  background: #635BFF;
+  border-color: #635BFF;
+}
+
+/* Checkmark */
+.payment-option input[type="checkbox"]:checked + .custom-checkbox::after {
+  content: "";
+  position: absolute;
+  width: 4px;
+  height: 8px;
+  left: 5px;
+  top: 2px;
+  border: solid #ffffff;
+  border-width: 0 1.5px 1.5px 0;
+  transform: rotate(45deg);
+}
+
+/* ================================
+   PAYMENT METHODS HEADING
+================================ */
+
+.payment-heading {
+  margin-bottom: 14px;
+}
+
+.payment-heading strong {
+  display: block;
+  margin-bottom: 4px;
+  color: #344054;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.payment-heading span {
+  display: block;
+  color: #98a0af;
+  font-size: 10px;
+  line-height: 1.4;
+}
+
+
+/* ================================
+   INVOICE PAYMENT METHODS
+================================ */
+
+.invoice-payment-methods {
+  margin-top: 28px;
+  padding-top: 18px;
+  border-top: 1px solid #edf0f4;
+}
+
+.invoice-payment-methods .payment-label {
+  display: block;
+  margin-bottom: 8px;
+  color: #98a0af;
+  font-size: 8px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+}
+
+.invoice-payment-methods .payment-method-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.invoice-payment-methods .payment-method-list span {
+  display: inline-block;
+  width: auto;
+  padding: 5px 8px;
+  border: 1px solid #e4e7ec;
+  border-radius: 6px;
+  background: #fafbfc;
+  color: #687286;
+  font-size: 9px;
+  font-weight: 500;
+}
+
