@@ -7,6 +7,27 @@ function App() {
   const [secondaryColor, setSecondaryColor] = useState("#14B8A6");
   const [showLogo, setShowLogo] = useState(true);
   const [logo, setLogo] = useState(null);
+  const [saved, setSaved] = useState(false);
+
+  const [activeTab, setActiveTab] = useState("general");
+
+  const [invoiceNumber, setInvoiceNumber] = useState("INV-2024-001");
+  const [issueDate, setIssueDate] = useState("September 18, 2026");
+  const [dueDate, setDueDate] = useState("October 18, 2026");
+
+  const [companyName, setCompanyName] = useState("Acme Studio");
+  const [clientName, setClientName] = useState("Northstar Labs");
+
+  const [itemDescription, setItemDescription] =
+    useState("Website development");
+
+  const [itemRate, setItemRate] = useState("1,000");
+  
+  const numericRate = Number(itemRate.replace(/,/g, "")) || 0;
+  const secondItem = 250;
+  const subtotal = numericRate + secondItem;
+  const tax = subtotal * 0.05;
+  const total = subtotal + tax;
 
   const [currency, setCurrency] = useState("USD");
 
@@ -17,7 +38,15 @@ function App() {
     PLN: "zł",
   };
 
-const symbol = currencySymbols[currency];
+  const symbol = currencySymbols[currency];
+
+  const formatAmount = (amount) => {
+    if (currency === "PLN") {
+      return `${amount} zł`;
+    }
+
+    return `${symbol}${amount}`;
+  };
 
   const handleLogoUpload = (event) => {
   const file = event.target.files[0];
@@ -43,8 +72,17 @@ const symbol = currencySymbols[currency];
           </div>
         </div>
 
-        <button className="save-button">
-          Save template
+        <button
+          className={`save-button ${saved ? "saved" : ""}`}
+          onClick={() => {
+            setSaved(true);
+
+            setTimeout(() => {
+              setSaved(false);
+            }, 2000);
+          }}
+        >
+          {saved ? "✓ Saved" : "Save template"}
         </button>
       </header>
 
@@ -57,7 +95,23 @@ const symbol = currencySymbols[currency];
               Personalize your invoice and see changes instantly.
             </p>
           </div>
+          <div className="settings-tabs">
+            <button
+              className={activeTab === "general" ? "active" : ""}
+              onClick={() => setActiveTab("general")}
+            >
+              General
+            </button>
 
+            <button
+              className={activeTab === "content" ? "active" : ""}
+              onClick={() => setActiveTab("content")}
+            >
+              Content
+            </button>
+          </div>
+          {activeTab === "general" && (
+          <>
           <section className="settings-section">
             <div className="section-title">
               <span>01</span>
@@ -188,6 +242,95 @@ const symbol = currencySymbols[currency];
           </label>
         )}
           </section>
+          </>
+          )}
+          {activeTab === "content" && (
+          <>
+            <section className="settings-section">
+              <div className="section-title">
+                <span>01</span>
+                Invoice details
+              </div>
+
+              <label>
+                Invoice number
+                <input
+                  type="text"
+                  value={invoiceNumber}
+                  onChange={(e) => setInvoiceNumber(e.target.value)}
+                />
+              </label>
+
+              <label className="content-field">
+                Issue date
+                <input
+                  type="text"
+                  value={issueDate}
+                  onChange={(e) => setIssueDate(e.target.value)}
+                />
+              </label>
+
+              <label className="content-field">
+                Due date
+                <input
+                  type="text"
+                  value={dueDate}
+                  onChange={(e) => setDueDate(e.target.value)}
+                />
+              </label>
+            </section>
+
+            <section className="settings-section">
+              <div className="section-title">
+                <span>02</span>
+                Parties
+              </div>
+
+              <label>
+                Your company
+                <input
+                  type="text"
+                  value={companyName}
+                  onChange={(e) => setCompanyName(e.target.value)}
+                />
+              </label>
+
+              <label className="content-field">
+                Billed to
+                <input
+                  type="text"
+                  value={clientName}
+                  onChange={(e) => setClientName(e.target.value)}
+                />
+              </label>
+            </section>
+
+            <section className="settings-section">
+              <div className="section-title">
+                <span>03</span>
+                Invoice item
+              </div>
+
+              <label>
+                Description
+                <input
+                  type="text"
+                  value={itemDescription}
+                  onChange={(e) => setItemDescription(e.target.value)}
+                />
+              </label>
+
+              <label className="content-field">
+                Rate
+                <input
+                  type="text"
+                  value={itemRate}
+                  onChange={(e) => setItemRate(e.target.value)}
+                />
+              </label>
+            </section>
+          </>
+        )}
         </aside>
 
         <section className="preview-area">
@@ -216,7 +359,7 @@ const symbol = currencySymbols[currency];
               <div className="invoice-header">
                 <div>
                   <span className="invoice-label">INVOICE</span>
-                  <h3>#INV-2024-001</h3>
+                  <h3>#{invoiceNumber}</h3>
                 </div>
 
                 {showLogo && (
@@ -236,12 +379,12 @@ const symbol = currencySymbols[currency];
               <div className="invoice-meta">
                 <div>
                   <span>ISSUED</span>
-                  <strong>September 18, 2026</strong>
+                  <strong>{issueDate}</strong>
                 </div>
 
                 <div>
                   <span>DUE DATE</span>
-                  <strong>October 18, 2026</strong>
+                  <strong>{dueDate}</strong>
                 </div>
 
                 <div>
@@ -253,7 +396,7 @@ const symbol = currencySymbols[currency];
               <div className="addresses">
                 <div>
                   <span>FROM</span>
-                  <strong>Acme Studio</strong>
+                  <strong>{companyName}</strong>
                   <p>
                     21 Business Avenue
                     <br />
@@ -265,7 +408,7 @@ const symbol = currencySymbols[currency];
 
                 <div>
                   <span>BILLED TO</span>
-                  <strong>Northstar Labs</strong>
+                  <strong>{clientName}</strong>
                   <p>
                     88 Innovation Street
                     <br />
@@ -286,13 +429,13 @@ const symbol = currencySymbols[currency];
 
                 <div className="invoice-item">
                   <div>
-                    <strong>Website development</strong>
+                    <strong>{itemDescription}</strong>
                     <span>UI design & development</span>
                   </div>
 
                   <span>1</span>
-                  <span>{symbol}1,000</span>
-                  <strong>{symbol}1,000</strong>
+                  <span>{formatAmount(itemRate)}</span>
+                  <strong>{formatAmount(itemRate)}</strong>
                 </div>
 
                 <div className="invoice-item">
@@ -303,7 +446,7 @@ const symbol = currencySymbols[currency];
 
                   <span>1</span>
                   <span>$250</span>
-                  <strong>{symbol}250</strong>
+                  <strong>{formatAmount("250")}</strong>
                 </div>
               </div>
 
@@ -318,18 +461,33 @@ const symbol = currencySymbols[currency];
                 <div className="totals">
                   <div>
                     <span>Subtotal</span>
-                    <strong>{symbol}1,250.00</strong>
+                    <strong>
+                      {formatAmount(
+                        subtotal.toLocaleString("en-US", {
+                          minimumFractionDigits: 2,
+                        })
+                      )}
+                    </strong>
                   </div>
 
                   <div>
                     <span>Tax (5%)</span>
-                    <strong>{symbol}62.50</strong>
+                    <strong>
+                      {formatAmount(
+                        tax.toLocaleString("en-US", {
+                      minimumFractionDigits: 2,
+                    })
+                    )}
+                    </strong>
                   </div>
 
                   <div className="total">
                     <span>Total</span>
                     <strong style={{ color: secondaryColor }}>
-                      {symbol}1,312.50
+                      {formatAmount(total.toLocaleString("en-US", {
+                        minimumFractionDigits: 2,
+                      })
+                      )}
                     </strong>
                   </div>
                 </div>
