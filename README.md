@@ -1,61 +1,53 @@
-Invoice Studio
+# Invoice Studio
 
 A responsive React invoice template designer that allows users to customize invoice templates and preview changes in real time.
 
-Features
+## Features
 
-Live invoice preview
+- Live invoice preview
+- General and Content customization tabs
+- Template name customization
+- Primary and secondary color customization
+- Currency selection
+- Logo upload and removal
+- Show/hide company logo
+- Invoice content editing
+- Payment method selection
+- Save template settings with localStorage
+- Responsive desktop and mobile layout
 
-General and Content customization tabs
+## Tech Stack
 
-Template name customization
+- React
+- Vite
+- JavaScript
+- CSS
+- localStorage
 
-Primary and secondary color customization
-
-Currency selection
-
-Logo upload and removal
-
-Show/hide company logo
-
-Invoice content editing
-
-Payment method selection
-
-Save template settings with localStorage
-
-Responsive desktop and mobile layout
-
-Tech Stack
-
-React
-
-Vite
-
-JavaScript
-
-CSS
-
-localStorage
-
-Getting Started
+## Getting Started
 
 Install dependencies:
 
+```bash
 npm install
+```
 
 Run the development server:
 
+```bash
 npm run dev
+```
 
 Build for production:
 
+```bash
 npm run build
+```
 
-Live Demo
+## Live Demo
 
-https://invoice-studio-sigma-lemon.vercel.app/
+[Invoice Studio — Live Demo](https://invoice-studio-sigma-lemon.vercel.app/)
 
-GitHub Repository
+## GitHub Repository
 
-https://github.com/Shakhobiddin11/invoice-studio
+[Invoice Studio — GitHub](https://github.com/Shakhobiddin11/invoice-studio)
